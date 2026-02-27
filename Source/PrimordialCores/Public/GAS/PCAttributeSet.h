@@ -101,7 +101,7 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "Secondary Attributes")
 	FGameplayAttributeData CriticalHitChance;
 	ATTRIBUTE_ACCESSORS(UPCAttributeSet, CriticalHitChance);
-
+ 
 	UPROPERTY(BlueprintReadOnly,  Category = "Secondary Attributes")
 	FGameplayAttributeData CriticalHitDamage;
 	ATTRIBUTE_ACCESSORS(UPCAttributeSet, CriticalHitDamage);

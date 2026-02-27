@@ -6,6 +6,8 @@
 #include "GameplayEffectExtension.h"
 #include "PCGameplayTags.h"
 #include "GameFramework/Character.h"
+#include "GAS/Effects/PCEffectContext.h"
+#include "Interfaces/CombatInterface.h"
 
 
 void UPCAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
@@ -33,12 +35,23 @@ void UPCAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallback
 		const float Damage = GetIncomingDamage();
 
 		const float NewHealth = GetHealth() - Damage;
+		
+		if (NewHealth <= 0.f)
+		{
+			FPCEffectContext* EffectContext=StaticCast<FPCEffectContext*>(Props.EffectContextHandle.Get());
+			FVector HitLocation=EffectContext->GetHitResult()->ImpactPoint;
+			FGameplayTag HitType=EffectContext->GetHitType();
+		    ICombatInterface::Execute_Death(Props.TargetAvatarActor,HitLocation,HitType);
+		}
+		else
+		{
+		 SendHitReactEvent(Props);
+		}
 
 		SetHealth(FMath::Clamp(NewHealth, 0.f, GetMaxHealth()));
 
 		SetIncomingDamage(0.f);  
 
-		SendHitReactEvent(Props);
 	}
 	
 	if (Data.EvaluatedData.Attribute == GetHealthAttribute())

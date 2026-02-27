@@ -27,6 +27,7 @@ public:
 	//Combat Interface
 	virtual FVector GetSocketLocationByName_Implementation(FName SocketName) override;
 	virtual UDataTable* GetHitReactDataTable_Implementation() override;
+	virtual void Death_Implementation(FVector HitLocation, FGameplayTag HitType) override;
 	virtual void FillHitReactInfo_Implementation(FVector HitLocation, FName Bone, ECardinalDirection& HitDirection, EHitZone& HitZone) override;
 
 protected:
@@ -35,6 +36,7 @@ protected:
 	virtual void InitializeAttributes();
 	void ApplyAttributeInitEffect(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const;
 	void GrantStartUpAbilities(float Level) const;
+	void OnDeathMontageBlendingOut(UAnimMontage* Montage,bool bInterrupted);
 	
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> ASC;
@@ -51,16 +53,19 @@ protected:
 	UPROPERTY(EditDefaultsOnly ,Category="PC|Attributes")
 	TSubclassOf<UGameplayEffect> SecondaryAttributes;
 	
-	UPROPERTY(EditDefaultsOnly ,Category="PC")
+	UPROPERTY(EditDefaultsOnly ,Category="PC|Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartUpAbilities;
 
 public:	
 	
 	virtual void Tick(float DeltaTime) override;
 	
-	UPROPERTY(EditDefaultsOnly, Category="PC")
+	UPROPERTY(EditDefaultsOnly, Category="PC|Data")
+	TObjectPtr<UDataTable> DeathMontageTable=nullptr;
+	
+	UPROPERTY(EditDefaultsOnly, Category="PC|Data")
 	TObjectPtr<UDataTable> HitReactTable=nullptr;
 	
-	UPROPERTY(EditDefaultsOnly, Category="PC")
+	UPROPERTY(EditDefaultsOnly, Category="PC|Data")
 	TObjectPtr<UHitReactBoneConfig> BonesToZonesDataAsset=nullptr;
 };

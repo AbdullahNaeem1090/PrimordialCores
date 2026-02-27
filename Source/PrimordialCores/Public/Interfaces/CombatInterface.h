@@ -3,6 +3,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
+#include "GameplayTagContainer.h"
 #include "CombatInterface.generated.h"
 
 enum class EHitZone : uint8;
@@ -46,4 +47,7 @@ public:
 	
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	int32 GetCharacterLevel();
+	
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void Death(FVector HitLocation,FGameplayTag HitType);
 };

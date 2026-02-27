@@ -20,4 +20,7 @@ public:
 	
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnInputPressed();
+	
+	UPROPERTY(EditDefaultsOnly)
+	TObjectPtr<UDataTable> AttackInfoDataTable;
 };

@@ -53,6 +53,27 @@ struct FPCHitReactRow : public FTableRowBase
 	float PlayRate = 1.f;
 };
 
+USTRUCT(BlueprintType)
+struct FPCDeathRow : public FTableRowBase
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	FGameplayTag HitType;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	ECardinalDirection HitDirection;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<UAnimMontage> DeathMontage;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	FName MontageSlot = FName("Default");
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	float PlayRate = 1.f;
+};
+
 UCLASS()
 class PRIMORDIALCORES_API UHitReactBoneConfig : public UDataAsset
 {

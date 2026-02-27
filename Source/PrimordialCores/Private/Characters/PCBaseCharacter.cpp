@@ -3,14 +3,16 @@
 
 #include "Characters/PCBaseCharacter.h"
 #include "AbilitySystemComponent.h"
+#include "Components/CapsuleComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "GAS/PCAbilitySystemComponent.h"
 #include "GAS/Data/HitReactBoneConfig.h"
+#include "GAS/PCBpFunctionLibrary.h"
 
-// Sets default values
+
 APCBaseCharacter::APCBaseCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
-
 }
 
 UAbilitySystemComponent* APCBaseCharacter::GetAbilitySystemComponent() const
@@ -38,27 +40,49 @@ UDataTable* APCBaseCharacter::GetHitReactDataTable_Implementation()
 	return HitReactTable;
 }
 
+void APCBaseCharacter::Death_Implementation(FVector HitLocation, FGameplayTag HitType)
+{
+	ECardinalDirection HitDirection=UPCBpFunctionLibrary::GetCardinalDirection(this,HitLocation);
+	UAnimMontage* DeathMontage=UPCBpFunctionLibrary::GetDeathMontageFromTable(HitType,HitDirection,DeathMontageTable);
+	
+	if (!DeathMontage) return;
+	
+	float Duration = PlayAnimMontage(DeathMontage);
+
+	if (Duration > 0.f)
+	{
+		FOnMontageBlendingOutStarted BlendDelegate;
+		BlendDelegate.BindUObject(this, &APCBaseCharacter::OnDeathMontageBlendingOut);
+
+		GetMesh()->GetAnimInstance()->Montage_SetBlendingOutDelegate(BlendDelegate, DeathMontage);
+	}
+}
+void APCBaseCharacter::OnDeathMontageBlendingOut(UAnimMontage* Montage, bool bInterrupted)
+{
+	if (bInterrupted) return;
+
+	// 1. Stop all movement cleanly
+	GetCharacterMovement()->StopMovementImmediately();
+	GetCharacterMovement()->DisableMovement();
+
+	// 2. Disable capsule collision
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	// 3. Detach mesh from capsule (VERY IMPORTANT)
+	GetMesh()->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+
+	// 4. Optional: freeze animation pose
+	GetMesh()->bPauseAnims = true;
+
+	// 5. Enable ragdoll
+	GetMesh()->SetCollisionProfileName("Ragdoll");
+	GetMesh()->SetSimulatePhysics(true);
+}
+
 void APCBaseCharacter::FillHitReactInfo_Implementation( FVector HitLocation, FName Bone, ECardinalDirection& HitDirection, EHitZone& HitZone)
 {
-	const FVector ToHit = (HitLocation - GetActorLocation()).GetSafeNormal();
-
-	const FVector Forward = GetActorForwardVector();
-	const FVector Right   = GetActorRightVector();
-	
-	const float ForwardDot = FVector::DotProduct(ToHit, Forward); 
-	const float RightDot   = FVector::DotProduct(ToHit, Right);    
-
-	if (FMath::Abs(ForwardDot) >= FMath::Abs(RightDot))
-	{
-		HitDirection= ForwardDot >= 0.f ? ECardinalDirection::Front : ECardinalDirection::Back;
-	}
-	else
-	{
-		HitDirection= RightDot >= 0.f ? ECardinalDirection::Right : ECardinalDirection::Left;
-	}
-	
+	HitDirection=UPCBpFunctionLibrary::GetCardinalDirection(this,HitLocation);
 	HitZone=BonesToZonesDataAsset->GetZoneForBone(Bone,GetMesh());
-
 }
 
 
