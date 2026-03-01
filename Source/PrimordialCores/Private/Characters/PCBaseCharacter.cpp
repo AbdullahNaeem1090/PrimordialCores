@@ -85,6 +85,11 @@ void APCBaseCharacter::FillHitReactInfo_Implementation( FVector HitLocation, FNa
 	HitZone=BonesToZonesDataAsset->GetZoneForBone(Bone,GetMesh());
 }
 
+void APCBaseCharacter::UpdateWarpTargetLocation_Implementation(FVector TargetLocation)
+{
+ // in blueprints
+}
+
 
 void APCBaseCharacter::BeginPlay()
 {

@@ -50,4 +50,7 @@ public:
 	
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void Death(FVector HitLocation,FGameplayTag HitType);
+	
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void UpdateWarpTargetLocation(FVector TargetLocation);
 };

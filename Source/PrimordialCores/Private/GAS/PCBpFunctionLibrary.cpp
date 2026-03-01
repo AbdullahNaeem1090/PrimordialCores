@@ -147,7 +147,7 @@ FPhysicalAttackData UPCBpFunctionLibrary::GetRandomAttackInfo(
     {
         if (Row && Row->AttackType.MatchesAny(AttackTypes))
         {
-            MatchingRows.Add(Row);
+        	MatchingRows.Add(Row);
         }
     }
 
@@ -233,3 +233,4 @@ ECardinalDirection UPCBpFunctionLibrary::GetCardinalDirection(AActor* Actor,FVec
 		return  RightDot >= 0.f ? ECardinalDirection::Right : ECardinalDirection::Left;
 	}
 }
+

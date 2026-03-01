@@ -70,6 +70,12 @@ void APCPlayerController::SetupInputComponent()
 				&APCPlayerController::LMBPressHandle
 			);
 		EnhancedInput->BindAction(
+			LMBAction,
+			ETriggerEvent::Triggered,
+			this,
+			&APCPlayerController::LMBHeldHandle
+		);
+		EnhancedInput->BindAction(
 				LMBAction,
 				ETriggerEvent::Completed,
 				this,
@@ -80,6 +86,18 @@ void APCPlayerController::SetupInputComponent()
 				ETriggerEvent::Started,
 				this,
 				&APCPlayerController::RMBPressHandle
+			);
+		EnhancedInput->BindAction(
+				RMBAction,
+				ETriggerEvent::Triggered,
+				this,
+				&APCPlayerController::RMBHeldHandle
+			);
+		EnhancedInput->BindAction(
+				RMBAction,
+				ETriggerEvent::Completed,
+				this,
+				&APCPlayerController::RMBReleaseHandle
 			);
 		//Shift Pressed and Released
 		EnhancedInput->BindAction(
@@ -121,6 +139,8 @@ void APCPlayerController::Tick(float DeltaSeconds)
 	}
 }
 
+// ----------------  input handles start
+
 void APCPlayerController::Move(const FInputActionValue& Value)  
 {
 	if (APawn* ControlledPawn = GetPawn())
@@ -160,6 +180,10 @@ void APCPlayerController::LMBPressHandle(const FInputActionValue& Value)
 	GetPCAbilitySystem()->AbilityInputPress(InputTag);
 }
 
+void APCPlayerController::LMBHeldHandle(const FInputActionValue& Value)
+{
+}
+
 void APCPlayerController::LMBReleaseHandle(const FInputActionValue& Value)
 {
 	const auto& PCTags = FPCGameplayTags::Get();
@@ -185,6 +209,15 @@ void APCPlayerController::RMBPressHandle(const FInputActionValue& Value)
 	GetPCAbilitySystem()->AbilityInputPress(InputTag);
 }
 
+void APCPlayerController::RMBHeldHandle(const FInputActionValue& Value)
+{
+}
+
+void APCPlayerController::RMBReleaseHandle(const FInputActionValue& Value)
+{
+	
+}
+
 void APCPlayerController::ShiftHandle(const FInputActionValue& Value)
 {
 	bShiftPressed = Value.Get<bool>();
@@ -194,6 +227,8 @@ void APCPlayerController::CtrlHandle(const FInputActionValue& Value)
 {
 	bCtrlPressed= Value.Get<bool>();
 }
+
+// ----------------  input handles end
 
 UTargetLockComponent* APCPlayerController::GetTargetLockComp()
 {

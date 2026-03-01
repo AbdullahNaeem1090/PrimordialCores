@@ -24,7 +24,7 @@ public:
 	bool GetAndSetPairedAnimInfo();
 	
 protected:
-	
+	// Add Removal of Motion Warping Function 
 	UFUNCTION(BlueprintCallable,BlueprintPure)
 	bool IsTargetInIdealRange() const ;
 	

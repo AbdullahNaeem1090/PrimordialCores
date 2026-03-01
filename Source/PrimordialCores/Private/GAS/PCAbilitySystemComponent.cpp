@@ -29,6 +29,12 @@ void UPCAbilitySystemComponent::AbilityInputRelease(const FGameplayTag& InputTag
 	{
 	  if (AbilitySpec.GetDynamicSpecSourceTags().HasTag(InputTag))
 	  	AbilitySpecInputReleased(AbilitySpec);
+		
+		UGameplayAbility* PrimaryInstance = AbilitySpec.GetPrimaryInstance();
+		if (PrimaryInstance)
+		{
+			InvokeReplicatedEvent(EAbilityGenericReplicatedEvent::InputReleased, AbilitySpec.Handle, PrimaryInstance->GetCurrentActivationInfo().GetActivationPredictionKey());
+		}
 	}
 }
 
@@ -43,6 +49,14 @@ void UPCAbilitySystemComponent::AbilityInputPress(const FGameplayTag& InputTag)
 			AbilitySpecInputPressed(AbilitySpec);
 			if (!AbilitySpec.IsActive()) 
 				TryActivateAbility(AbilitySpec.Handle);
+			else
+			{
+				UGameplayAbility* PrimaryInstance = AbilitySpec.GetPrimaryInstance();
+				if (PrimaryInstance)
+				{
+					InvokeReplicatedEvent(EAbilityGenericReplicatedEvent::InputPressed, AbilitySpec.Handle, PrimaryInstance->GetCurrentActivationInfo().GetActivationPredictionKey());
+				}
+			}
 		}
 	}
 }

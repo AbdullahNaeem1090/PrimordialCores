@@ -65,7 +65,9 @@ public:
 	
 	//Input Tag
 	FGameplayTag Input_LMB;
+	FGameplayTag Input_LMB_Hold;
 	FGameplayTag Input_RMB;
+	FGameplayTag Input_RMB_Hold;
 	FGameplayTag Input_LMB_Shift;
 	FGameplayTag Input_LMB_Ctrl;
 	FGameplayTag Input_LMB_Shift_Ctrl;

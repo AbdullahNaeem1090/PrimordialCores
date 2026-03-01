@@ -30,8 +30,10 @@ protected:
 	void Look(const FInputActionValue& Value);
 	void SpaceBarHandle(const FInputActionValue& Value);
 	void LMBPressHandle(const FInputActionValue& Value);
+	void LMBHeldHandle(const FInputActionValue& Value);
 	void LMBReleaseHandle(const FInputActionValue& Value);
 	void RMBPressHandle(const FInputActionValue& Value);
+	void RMBHeldHandle(const FInputActionValue& Value);
 	void RMBReleaseHandle(const FInputActionValue& Value);
 	void ShiftHandle(const FInputActionValue& Value);
 	void CtrlHandle(const FInputActionValue& Value);

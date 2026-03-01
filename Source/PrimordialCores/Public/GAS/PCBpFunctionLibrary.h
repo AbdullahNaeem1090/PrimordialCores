@@ -40,7 +40,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category="PC Function Library")
 	static UAnimMontage* GetDeathMontageFromTable(FGameplayTag HitType,ECardinalDirection HitDirection,const UDataTable* HitReactTable);
 	
-	UFUNCTION(BlueprintCallable, Category="PC Function Library", meta=(AutoCreateRefTerm="AttackTypes"))
+	UFUNCTION(
+		BlueprintCallable,
+		Category="PC Function Library",
+		meta=(AutoCreateRefTerm="AttackTypes",ToolTip="If InRadius > 0, attacks are filtered by distance. If <= 0, distance check is ignored.")
+	)
 	static FPhysicalAttackData GetRandomAttackInfo(
 		const UDataTable* AttackDataTable,
 		const FGameplayTagContainer& AttackTypes,
@@ -60,4 +64,6 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category="PC Function Library")
 	static ECardinalDirection GetCardinalDirection(AActor* Actor,FVector Location);
+	
+
 };

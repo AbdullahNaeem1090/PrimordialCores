@@ -25,19 +25,14 @@ struct FPhysicalAttackData : public FTableRowBase
 	float BaseDamage = 0.f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	bool bIsPaired = false;
-
+	FName SocketName = FName();
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	FName StartSocketName = FName();
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	FName EndSocketName = FName();
+	float DistanceRange =0.f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	UAnimMontage* AttackerMontage = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	UAnimMontage* VictimAttackMontage = nullptr;
 
 #if WITH_EDITOR
 	virtual void OnDataTableChanged(const UDataTable* InDataTable, const FName InRowName) override
