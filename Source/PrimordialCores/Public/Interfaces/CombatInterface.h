@@ -39,7 +39,7 @@ public:
 	
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void FillHitReactInfo(
-		FVector HitLocation,
+		FVector AttackerLocation,
 		FName Bone,
 		UPARAM(ref) ECardinalDirection& HitDirection,
 		UPARAM(ref) EHitZone& HitZone
@@ -49,7 +49,7 @@ public:
 	int32 GetCharacterLevel();
 	
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	void Death(FVector HitLocation,FGameplayTag HitType);
+	void Death(FVector AttackerLocation,FGameplayTag HitType);
 	
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void UpdateWarpTargetLocation(FVector TargetLocation);

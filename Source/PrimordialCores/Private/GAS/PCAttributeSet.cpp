@@ -36,16 +36,22 @@ void UPCAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallback
 
 		const float NewHealth = GetHealth() - Damage;
 		
+		
 		if (NewHealth <= 0.f)
 		{
+			FGameplayTagContainer CancelTagContainer;
+			CancelTagContainer.AddTag(FPCGameplayTags::Get().Ability_Combat_Physical_Kick_Combo);
+			CancelTagContainer.AddTag(FPCGameplayTags::Get().Ability_Combat_Physical_Punch_Combo);
 			FPCEffectContext* EffectContext=StaticCast<FPCEffectContext*>(Props.EffectContextHandle.Get());
 			FVector HitLocation=EffectContext->GetHitResult()->ImpactPoint;
 			FGameplayTag HitType=EffectContext->GetHitType();
 		    ICombatInterface::Execute_Death(Props.TargetAvatarActor,HitLocation,HitType);
+			Props.SourceASC->CancelAbilities(&CancelTagContainer);
+			
 		}
 		else
 		{
-		 SendHitReactEvent(Props);
+			SendHitReactEvent(Props);
 		}
 
 		SetHealth(FMath::Clamp(NewHealth, 0.f, GetMaxHealth()));
@@ -57,7 +63,6 @@ void UPCAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallback
 	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
 	{
 		SetHealth(FMath::Clamp(GetHealth(), 0.f, GetMaxHealth()));
-	
 	}
 }
 

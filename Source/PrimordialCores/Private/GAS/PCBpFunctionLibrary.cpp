@@ -89,7 +89,7 @@ UAnimMontage* UPCBpFunctionLibrary::GetHitReactAnimMontageFromTable(FGameplayTag
 
 	for (FPCHitReactRow* Row : AllRows)
 	{
-		if (Row->HitType == AttackType && Row->HitZone == EHitZone::Default)
+		if (Row->HitType == AttackType && Row->HitZone == EHitZone::Body)
 		{
 			return Row->HitReactMontage;
 		}
@@ -215,22 +215,27 @@ FPhysicalAttackData UPCBpFunctionLibrary::GetAttackInfoByName(
     return FPhysicalAttackData();
 }
 
-ECardinalDirection UPCBpFunctionLibrary::GetCardinalDirection(AActor* Actor,FVector Location)
+ECardinalDirection UPCBpFunctionLibrary::GetCardinalDirection(
+	const AActor* Victim,
+	const FVector& AttackerLocation)
 {
-	if (Actor==nullptr) return ECardinalDirection::Front;
-	
-	const FVector ToHit = (Location - Actor->GetActorLocation()).GetSafeNormal();
-	
-	const float ForwardDot = FVector::DotProduct(ToHit, Actor->GetActorForwardVector()); 
-	const float RightDot   = FVector::DotProduct(ToHit, Actor->GetActorRightVector());    
+	if (!Victim)
+	{
+		return ECardinalDirection::Front;
+	}
 
-	if (FMath::Abs(ForwardDot) >= FMath::Abs(RightDot))
-	{
-		return  ForwardDot >= 0.f ? ECardinalDirection::Front : ECardinalDirection::Back;
-	}
-	else
-	{
-		return  RightDot >= 0.f ? ECardinalDirection::Right : ECardinalDirection::Left;
-	}
+	FVector ToAttacker = AttackerLocation - Victim->GetActorLocation();
+
+	ToAttacker.Z = 0.f;
+	ToAttacker.Normalize();
+
+	FVector Forward = Victim->GetActorForwardVector();
+	Forward.Z = 0.f;
+	Forward.Normalize();
+
+	const float ForwardDot =
+		FVector::DotProduct(ToAttacker, Forward);
+
+	return (ForwardDot >= 0.f) ? ECardinalDirection::Front : ECardinalDirection::Back;
 }
 

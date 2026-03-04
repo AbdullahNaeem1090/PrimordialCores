@@ -11,13 +11,9 @@ UENUM(BlueprintType)
 enum class EHitZone : uint8
 {
 	Head,
-	Torso,
-	LeftArm,
-	RightArm,
-	LeftLeg,
-	RightLeg,
-	Pelvis,
-	Default
+	Body,
+    LeftLeg,
+	RightLeg
 };
 
 UENUM(BlueprintType)
@@ -86,6 +82,6 @@ public:
 	TMap<FName, EHitZone> BoneToZoneMap;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	EHitZone DefaultZone = EHitZone::Torso;
+	EHitZone DefaultZone = EHitZone::Body;
 
 };

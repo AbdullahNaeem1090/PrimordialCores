@@ -28,7 +28,7 @@ public:
 	virtual FVector GetSocketLocationByName_Implementation(FName SocketName) override;
 	virtual UDataTable* GetHitReactDataTable_Implementation() override;
 	virtual void Death_Implementation(FVector HitLocation, FGameplayTag HitType) override;
-	virtual void FillHitReactInfo_Implementation(FVector HitLocation, FName Bone, ECardinalDirection& HitDirection, EHitZone& HitZone) override;
+	virtual void FillHitReactInfo_Implementation(FVector AttackerLocation, FName Bone, ECardinalDirection& HitDirection, EHitZone& HitZone) override;
 virtual void UpdateWarpTargetLocation_Implementation(FVector TargetLocation) override;
 protected:
 	

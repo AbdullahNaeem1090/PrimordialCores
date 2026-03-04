@@ -63,7 +63,6 @@ public:
 		bool& bFound);
 	
 	UFUNCTION(BlueprintCallable, Category="PC Function Library")
-	static ECardinalDirection GetCardinalDirection(AActor* Actor,FVector Location);
-	
+	static ECardinalDirection GetCardinalDirection(const AActor* Victim,const FVector& AttackerLocation);
 
 };

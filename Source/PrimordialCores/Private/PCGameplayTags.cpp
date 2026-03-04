@@ -226,9 +226,15 @@ UGameplayTagsManager::Get().AddNativeGameplayTag(
 	);
 	
 
-	GameplayTags.Ability_Combat_Physical_SpecialAttack =
+	GameplayTags.Ability_Combat_Physical_Kick_Combo =
 	UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Ability.Combat.Physical.SpecialAttack"),
+		FName("Ability.Combat.Physical.Kick.Combo"),
+		TEXT("Special physical attack ability.")
+	);
+	
+	GameplayTags.Ability_Combat_Physical_Punch_Combo =
+	UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Ability.Combat.Physical.Punch.Combo"),
 		TEXT("Special physical attack ability.")
 	);
 	
@@ -286,22 +292,16 @@ UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Attack.Light"),
 		TEXT("Light attack classification.")
 	);
-
-	GameplayTags.Attack_Medium =
-	UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Attack.Medium"),
-		TEXT("Medium attack classification.")
-	);
-
+	
 	GameplayTags.Attack_Heavy =
 	UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Attack.Heavy"),
 		TEXT("Heavy attack classification.")
 	);
 
-	GameplayTags.Attack_Launcher =
+	GameplayTags.Attack_Combo=
 	UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Attack.Launcher"),
+		FName("Attack.Combo"),
 		TEXT("Launcher attack that sends target airborne.")
 	);
 

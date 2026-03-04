@@ -40,12 +40,17 @@ UDataTable* APCBaseCharacter::GetHitReactDataTable_Implementation()
 	return HitReactTable;
 }
 
-void APCBaseCharacter::Death_Implementation(FVector HitLocation, FGameplayTag HitType)
+void APCBaseCharacter::Death_Implementation(FVector AttackerLocation, FGameplayTag HitType)
 {
-	ECardinalDirection HitDirection=UPCBpFunctionLibrary::GetCardinalDirection(this,HitLocation);
+	
+	ECardinalDirection HitDirection=UPCBpFunctionLibrary::GetCardinalDirection(this,AttackerLocation);
 	UAnimMontage* DeathMontage=UPCBpFunctionLibrary::GetDeathMontageFromTable(HitType,HitDirection,DeathMontageTable);
 	
-	if (!DeathMontage) return;
+	if (!DeathMontage)
+	{
+		OnDeathMontageBlendingOut(nullptr,false);
+		return;
+	}
 	
 	float Duration = PlayAnimMontage(DeathMontage);
 
@@ -77,11 +82,13 @@ void APCBaseCharacter::OnDeathMontageBlendingOut(UAnimMontage* Montage, bool bIn
 	// 5. Enable ragdoll
 	GetMesh()->SetCollisionProfileName("Ragdoll");
 	GetMesh()->SetSimulatePhysics(true);
+	
+	SetLifeSpan(3.0f);
 }
 
-void APCBaseCharacter::FillHitReactInfo_Implementation( FVector HitLocation, FName Bone, ECardinalDirection& HitDirection, EHitZone& HitZone)
+void APCBaseCharacter::FillHitReactInfo_Implementation( FVector AttackerLocation, FName Bone, ECardinalDirection& HitDirection, EHitZone& HitZone)
 {
-	HitDirection=UPCBpFunctionLibrary::GetCardinalDirection(this,HitLocation);
+	HitDirection=UPCBpFunctionLibrary::GetCardinalDirection(this,AttackerLocation);
 	HitZone=BonesToZonesDataAsset->GetZoneForBone(Bone,GetMesh());
 }
 

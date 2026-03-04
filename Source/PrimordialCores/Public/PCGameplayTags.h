@@ -59,7 +59,9 @@ public:
 	FGameplayTag Ability_Combat;
 	FGameplayTag Ability_Combat_Physical_Punch;
 	FGameplayTag Ability_Combat_Physical_Kick;
-	FGameplayTag Ability_Combat_Physical_SpecialAttack;
+	FGameplayTag Ability_Combat_Physical_Kick_Combo;
+	FGameplayTag Ability_Combat_Physical_Punch_Combo;
+	
 	
 	FGameplayTag Ability_HitReact;
 	
@@ -77,10 +79,9 @@ public:
 
 	//Attack
 	FGameplayTag Attack_Light;
-	FGameplayTag Attack_Medium;
 	FGameplayTag Attack_Heavy;
-	FGameplayTag Attack_Launcher;
 	FGameplayTag Attack_Knockback;
+	FGameplayTag Attack_Combo;
 	
 	//Events
 	FGameplayTag Event;
